@@ -1,101 +1,144 @@
-# Password Generator
+# PasswordGenerator
 
-A simple, fast, and reliable console utility for generating cryptographically strong passwords.
+A simple, fast and reliable console utility for generating cryptographically strong passwords.
+
+---
 
 ## Features
 
-- **Cryptographic strength:** passwords are generated using the cryptographically secure random number generator `RandomNumberGenerator`.
-- **Flexible character sets:** you can disable lowercase letters, uppercase letters, digits, and special characters.
+- **Cryptographic strength:** generation is based on the `RandomNumberGenerator` cryptographic random number generator.
+- **Flexible character set configuration:** ability to disable lowercase letters, uppercase letters, digits and special characters.
 - **Two launch modes:**
-  - **Command-line arguments:** instant generation with fine-grained control via short flags.
-  - **Interactive:** a step-by-step console dialog where pressing Enter selects the default option.
-- **Strict validation:** the length range (8 to 64 characters) is checked, and invalid input is handled gracefully.
-- **No third-party dependencies:** only the standard library is used.
+  - **Via arguments:** instant generation with fine-tuning through short flags.
+  - **Interactive:** step-by-step console wizard with quick selection via the Enter key.
+- **Strict validation:** length range check (from 8 to 64 characters) and protection against invalid input.
+- **No third-party dependencies:** uses only the standard library.
+* **Colored output:** clear highlighting of information and warnings in the terminal.
+
+---
 
 ## Quick Start
 
+### Requirements
+
 Building and running requires the [.NET 10.0 SDK](https://dotnet.microsoft.com/download).
 
-### Clone the repository
+### Build and Run
+
+Clone the repository and navigate to the project folder.
 
 ```bash
-git clone https://gitverse.ru/demurel/password-generator.git
+git clone https://github.com/demurel0/password-generator.git
 cd password-generator
 ```
 
+---
+
 ## Usage
 
-### Running with arguments
+### Running with Arguments
 
-You can pass just the length, or combine it with flags that exclude character sets.
+You can pass only the length or combine it with flags to exclude character sets.
 
 ```bash
-dotnet run --project PasswordGenerator -- [length] [options]
+dotnet run --project PasswordGenerator -- [options]
 ```
 
-#### Available options
+#### Available Parameters
 
-| Flag | Description | Default |
+| Flag | Description | Default Value |
 | :--- | :--- | :--- |
-| `-l <number>` | Password length | 16 |
-| `-L` | Exclude lowercase letters | Included |
-| `-U` | Exclude uppercase letters | Included |
-| `-D` | Exclude digits | Included |
-| `-S` | Exclude special characters | Included |
-| `-h` | Show usage help | - |
+| `-l, --length <number>` | Password length | 16 |
+| `-L, --lower` | Exclude lowercase letters | Enabled |
+| `-U, --upper` | Exclude uppercase letters | Enabled |
+| `-D, --digits` | Exclude digits | Enabled |
+| `-S, --special` | Exclude special characters | Enabled |
+| `-h, --help` | Show usage help | - |
 
-### Interactive mode
+### Interactive Mode
 
-If you run the utility without arguments, a step-by-step setup wizard starts. Pressing **Enter** automatically selects the option shown in uppercase.
+If you launch the utility without arguments, a step-by-step setup wizard opens. The **Enter** key automatically selects the option marked with a capital letter.
 
 ```bash
 dotnet run --project PasswordGenerator
 ```
 
-## Examples
+---
 
-### Generating with flags
+## Usage Examples
+
+### Generation via Flags
 
 ```console
 $ dotnet run --project PasswordGenerator -- -l 14 -S
-Generated password: 9pL3mQ8vR1xT5k
+Generated password: VKer5dvLG50oZt
 
-$ dotnet run --project PasswordGenerator -- -l 100
-Error: Length must be between 8 and 64.
+$ dotnet run --project PasswordGenerator -- 20
+Generated password: O8IV-*x(iS_zmC&FmVvg
+
+$ dotnet run --project PasswordGenerator -- --length 12 --special
+Generated password: izyw6pbd6Avc
 ```
 
-### Interactive dialog
+With invalid arguments, the program prints a message and exits.
+
+```console
+$ dotnet run --project PasswordGenerator -- -l 100
+Length must be between 8 and 64.
+
+$ dotnet run --project PasswordGenerator -- -L -U -D -S
+You cannot exclude all character sets at the same time.
+
+$ dotnet run --project PasswordGenerator -- --unknown
+Unknown argument: '--unknown'. Use '-h' or '--help' for help.
+```
+
+### Interactive Dialog
 
 ```console
 $ dotnet run --project PasswordGenerator
 Enter password length (8-64): 16
-Include lowercase letters? [Y/n]: 
-Include uppercase letters? [Y/n]: 
-Include digits? [Y/n]: 
+Include lowercase letters? [Y/n]:
+Include uppercase letters? [Y/n]:
+Include digits? [Y/n]:
 Include special characters? [Y/n]: n
 
-Generated password: vNqLk3opTwE6XzBc
+Generated password: MKzJOIqsy8aofmvL
+```
+
+If all character sets are disabled, the wizard will require selecting at least one.
+
+```console
+Include lowercase letters? [Y/n]: n
+Include uppercase letters? [Y/n]: n
+Include digits? [Y/n]: n
+Include special characters? [Y/n]: n
+
+Select at least one character set.
 ```
 
 ### Help
 
 ```console
 $ dotnet run --project PasswordGenerator -- -h
-Password Generator
+┌──────────────────────┐
+│  ••••••••••          │
+└──────────────────────┘
 
-Usage: PasswordGenerator [length] [options]
+USAGE
+PasswordGenerator [options]
 
--l <length>  password length (8–64)
--L           exclude lowercase
--U           exclude uppercase
--D           exclude digits
--S           exclude special characters
--h           help
-
-No arguments - interactive mode.
-All character groups are enabled by default.
+OPTIONS
+  -l, --length <length>  Password length (8-64)
+  -L, --lower            Exclude lowercase letters
+  -U, --upper            Exclude uppercase letters
+  -D, --digits           Exclude digits
+  -S, --special          Exclude special characters
+  -h, --help             Show help
 ```
+
+---
 
 ## License
 
-This project is licensed under the [MIT](LICENSE) license.
+This project is distributed under the [MIT](LICENSE) license.
