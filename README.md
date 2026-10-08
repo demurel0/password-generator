@@ -1,4 +1,4 @@
-# PasswordGenerator
+# Password Generator
 
 A simple, fast and reliable console utility for generating cryptographically strong passwords.
 
